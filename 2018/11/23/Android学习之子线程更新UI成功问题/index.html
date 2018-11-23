@@ -115,17 +115,17 @@
 
 
 
-  <meta name="description" content="###���onCreate����ֱ�����̸߳���UI�ɹ����� ���ȣ�ֱ�������߳��и���UI���������£� 123456789101112131415public class MainActivity extends AppCompatActivity &amp;#123;    @Override    protected void onCreate(Bundle">
+  <meta name="description" content="###主活动onCreate函数直接子线程更新UI成功问题 首先，直接在子线程中更新UI。代码如下： 123456789101112131415public class MainActivity extends AppCompatActivity &amp;#123;    @Override    protected void onCreate(Bundle savedInstanceState) &amp;#">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hzscoder&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/2018/11/22/Android学习之子线程更新UI/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/11/23/Android学习之子线程更新UI成功问题/index.html">
 <meta property="og:site_name" content="hzscoder&#39;s blog">
-<meta property="og:description" content="###���onCreate����ֱ�����̸߳���UI�ɹ����� ���ȣ�ֱ�������߳��и���UI���������£� 123456789101112131415public class MainActivity extends AppCompatActivity &amp;#123;    @Override    protected void onCreate(Bundle">
+<meta property="og:description" content="###主活动onCreate函数直接子线程更新UI成功问题 首先，直接在子线程中更新UI。代码如下： 123456789101112131415public class MainActivity extends AppCompatActivity &amp;#123;    @Override    protected void onCreate(Bundle savedInstanceState) &amp;#">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-22T13:38:18.282Z">
+<meta property="og:updated_time" content="2018-11-23T08:08:16.188Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hzscoder&#39;s blog">
-<meta name="twitter:description" content="###���onCreate����ֱ�����̸߳���UI�ɹ����� ���ȣ�ֱ�������߳��и���UI���������£� 123456789101112131415public class MainActivity extends AppCompatActivity &amp;#123;    @Override    protected void onCreate(Bundle">
+<meta name="twitter:description" content="###主活动onCreate函数直接子线程更新UI成功问题 首先，直接在子线程中更新UI。代码如下： 123456789101112131415public class MainActivity extends AppCompatActivity &amp;#123;    @Override    protected void onCreate(Bundle savedInstanceState) &amp;#">
 
 
 
@@ -134,7 +134,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/11/22/Android学习之子线程更新UI/">
+  <link rel="canonical" href="http://yoursite.com/2018/11/23/Android学习之子线程更新UI成功问题/">
 
 
 
@@ -311,7 +311,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/22/Android学习之子线程更新UI/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/23/Android学习之子线程更新UI成功问题/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hzscoder">
@@ -353,13 +353,9 @@
                 
               
 
-              <time title="创建时间：2018-11-22 17:16:23 / 修改时间：21:38:18" itemprop="dateCreated datePublished" datetime="2018-11-22T17:16:23+08:00">2018-11-22</time>
+              <time title="创建时间：2018-11-23 16:08:16" itemprop="dateCreated datePublished" datetime="2018-11-23T16:08:16+08:00">2018-11-23</time>
             
 
-            
-              
-
-              
             
           </span>
 
@@ -391,16 +387,16 @@
       
 
       
-        <p>###���onCreate����ֱ�����̸߳���UI�ɹ�����</p>
-<p>���ȣ�ֱ�������߳��и���UI���������£�</p>
+        <p>###主活动onCreate函数直接子线程更新UI成功问题</p>
+<p>首先，直接在子线程中更新UI。代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        <span class="keyword">final</span> TextView textView=findViewById(R.id.textView);</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                textView.setText(<span class="string">"hello"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>ע�������ļ���ֻ��һ��TextView</p>
-<p>����”hello”�ɹ���ʾ��TextView�С�˵�����̸߳���UI�ɹ���</p>
-<p>Ȼ���������߳���Ϣ200ms���ٽ��и��£��������£�</p>
+<p>注：布局文件中只有一个TextView</p>
+<p>发现”hello”成功显示在TextView中。说明子线程更新UI成功。</p>
+<p>然后我让子线程休息200ms后再进行更新，代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        <span class="keyword">final</span> TextView textView=findViewById(R.id.textView);</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line">                Thread.sleep(<span class="number">200</span>);</span><br><span class="line">                textView.setText(<span class="string">"hello"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Ȼ����TextView�ϲ�û����ʾ”hello”,˵�����̲߳��ܸ���UI���ǲ��Ǻ���֣�</p>
-<p>ԭ���ǵ�����UIʱ��ViewRoot��ʵ����ViewRootImpl�����checkThread����ȥ��鵱ǰ����UI���߳����ĸ����������UI�߳�����׳��쳣������UIʧ�ܡ�����һ��������ֱ����MainActivity����ں���onCreate����ֱ�Ӵ������̸߳���UI����ʱ��ViewRootImpl��������û�д������������޷���鵱ǰ�߳��Ƿ������̡߳�</p>
-<p>��ϸԭ��μ�[Android�����߳���Ĳ��ܸ���UI��] (<a href="https://www.cnblogs.com/xuyinhuan/p/5930287.html" target="_blank" rel="noopener">https://www.cnblogs.com/xuyinhuan/p/5930287.html</a>)</p>
+<p>然后发现TextView上并没有显示”hello”,说明子线程不能更新UI。是不是很奇怪？</p>
+<p>原因是当访问UI时，ViewRoot的实现类ViewRootImpl会调用checkThread方法去检查当前访问UI的线程是哪个，如果不是UI线程则会抛出异常，更新UI失败。而第一次是我们直接在MainActivity的入口函数onCreate里面直接创建子线程跟新UI，这时候ViewRootImpl还来不及没有创建，以至于无法检查当前线程是否是主线程。</p>
+<p>详细原因参见[Android中子线程真的不能更新UI吗？] (<a href="https://www.cnblogs.com/xuyinhuan/p/5930287.html" target="_blank" rel="noopener">https://www.cnblogs.com/xuyinhuan/p/5930287.html</a>)</p>
 
       
     </div>
@@ -610,7 +606,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共219字</span>
+  <span class="post-count">博客全站共419字</span>
 </div>
         
 
