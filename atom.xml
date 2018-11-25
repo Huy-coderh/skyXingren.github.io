@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-11-24T12:01:37.298Z</updated>
+  <updated>2018-11-25T06:26:14.646Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AS更新后AndroidManifest提示warning应用程序无法通过Google搜索进行索引</title>
+    <link href="http://yoursite.com/2018/11/25/AS%E6%9B%B4%E6%96%B0%E5%90%8Ewarning%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E6%97%A0%E6%B3%95%E9%80%9A%E8%BF%87Google%E6%90%9C%E7%B4%A2%E8%BF%9B%E8%A1%8C%E7%B4%A2%E5%BC%95/"/>
+    <id>http://yoursite.com/2018/11/25/AS更新后warning应用程序无法通过Google搜索进行索引/</id>
+    <published>2018-11-25T06:26:14.600Z</published>
+    <updated>2018-11-25T06:26:14.646Z</updated>
+    
+    <content type="html"><![CDATA[<p>作为一个自认为有强迫症的低端Coder，上次还是忍不住把AS更新了。<br>结果新版本用起来了一大堆各种各样的问题。其中AndroidManifest文件中多了一个warning<br>App is not indexable by Google Search;<br>consider adding at least one Activity with an ACTION-VIEW<br>官方文档是这么说的:<br>To enable Google to crawl your app content and allow users to enter your app from search results, you must add intent filters for the relevant activities in your app manifest. These intent filters allow deep linking to the content in any of your activities. For example, the user might click on a deep link to view a page within a shopping app that describes a product offering that the user is searching for<br>解决方法有以下两个：<br>1.在AndroidManifest文件Activity标签中内嵌入一个ACTION.VIEW，如下:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainActivity"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.VIEW"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure></p><p>2.禁用检索功能，在android{}中加入以下代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lintOptions &#123;</span><br><span class="line">        disable <span class="string">'GoogleAppIndexingWarning'</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;作为一个自认为有强迫症的低端Coder，上次还是忍不住把AS更新了。&lt;br&gt;结果新版本用起来了一大堆各种各样的问题。其中AndroidManifest文件中多了一个warning&lt;br&gt;App is not indexable by Google Search;&lt;br&gt;co
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Android学习之内存泄露</title>
