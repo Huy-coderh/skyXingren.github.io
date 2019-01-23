@@ -1078,7 +1078,7 @@ pre .javascript .function {
   right: 30px;
   z-index: 1050;
   padding: 0 6px;
-  width: 24px;
+  width: initial;
   background: #222;
   font-size: 12px;
   opacity: 0.6;
@@ -1850,7 +1850,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #a8cf6f;
+  background: #ffdeb3;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2606,7 +2606,7 @@ ul.breadcrumb li+li:last-child {
   float: right;
   box-sizing: border-box;
   padding: 40px;
-  width: calc(100% - 252px);
+  width: calc(100% - 245px);
   background: #fff;
   min-height: 700px;
   box-shadow: initial;
@@ -2849,7 +2849,7 @@ ul.breadcrumb li+li:last-child {
 }
 .sidebar-inner.affix {
   position: fixed;
-  top: 12px;
+  top: 5px;
 }
 .sidebar-inner.affix-bottom {
   position: absolute;
