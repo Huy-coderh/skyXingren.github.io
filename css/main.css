@@ -1349,6 +1349,14 @@ pre .javascript .function {
   padding: 3px;
   border: 1px solid #ddd;
 }
+.posts-expand .post-eof {
+  display: block;
+  margin: 60px auto 50px;
+  width: 8%;
+  height: 1px;
+  background: #ccc;
+  text-align: center;
+}
 .posts-expand .post-body .fancybox img {
   margin: 0 auto 25px;
 }
@@ -1850,7 +1858,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffdeb3;
+  background: #d900c3;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2606,7 +2614,7 @@ ul.breadcrumb li+li:last-child {
   float: right;
   box-sizing: border-box;
   padding: 40px;
-  width: calc(100% - 245px);
+  width: calc(100% - 252px);
   background: #fff;
   min-height: 700px;
   box-shadow: initial;
@@ -2849,7 +2857,7 @@ ul.breadcrumb li+li:last-child {
 }
 .sidebar-inner.affix {
   position: fixed;
-  top: 5px;
+  top: 12px;
 }
 .sidebar-inner.affix-bottom {
   position: absolute;
