@@ -1349,13 +1349,9 @@ pre .javascript .function {
   padding: 3px;
   border: 1px solid #ddd;
 }
-.posts-expand .post-eof {
-  display: block;
-  margin: 60px auto 50px;
-  width: 8%;
-  height: 1px;
-  background: #ccc;
-  text-align: center;
+.posts-expand .post {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 .posts-expand .post-body .fancybox img {
   margin: 0 auto 25px;
@@ -1858,7 +1854,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #d900c3;
+  background: #faff78;
 }
 .links-of-blogroll {
   font-size: 13px;
