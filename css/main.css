@@ -1285,11 +1285,11 @@ pre .javascript .function {
   opacity: 0;
 }
 .posts-expand {
-  padding-top: 40px;
+  padding-top: 0px;
 }
 @media (max-width: 767px) {
   .posts-expand {
-    margin: 0 20px;
+    margin: 0 0px;
   }
   .post-body pre .gutter pre {
     padding-right: 10px;
@@ -1854,7 +1854,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #c8db59;
+  background: #58a4ee;
 }
 .links-of-blogroll {
   font-size: 13px;
