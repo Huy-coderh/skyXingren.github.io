@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-12-28T05:14:00.378Z</updated>
+  <updated>2020-12-28T05:19:49.097Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,57 +17,17 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>text1</title>
-    <link href="http://yoursite.com/2020/12/28/text1/"/>
-    <id>http://yoursite.com/2020/12/28/text1/</id>
-    <published>2020-12-28T05:14:00.000Z</published>
-    <updated>2020-12-28T05:14:00.378Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://yoursite.com/2020/12/28/test/"/>
-    <id>http://yoursite.com/2020/12/28/test/</id>
-    <published>2020-12-28T05:07:18.339Z</published>
-    <updated>2020-12-28T05:07:46.450Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="test"><a href="#test" class="headerlink" title="test"></a>test</h1>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;test&quot;&gt;&lt;a href=&quot;#test&quot; class=&quot;headerlink&quot; title=&quot;test&quot;&gt;&lt;/a&gt;test&lt;/h1&gt;
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>记一次Java编程细节</title>
-    <link href="http://yoursite.com/2020/03/07/%E8%AE%B0%E4%B8%80%E6%AC%A1Java%E7%BC%96%E7%A8%8B%E7%BB%86%E8%8A%82/"/>
-    <id>http://yoursite.com/2020/03/07/记一次Java编程细节/</id>
+    <link href="http://yoursite.com/2020/03/07/%E8%AE%B0Java%E7%BC%96%E7%A8%8B%E7%BB%86%E8%8A%82/"/>
+    <id>http://yoursite.com/2020/03/07/记Java编程细节/</id>
     <published>2020-03-07T13:53:04.399Z</published>
-    <updated>2020-03-07T14:30:54.743Z</updated>
+    <updated>2020-12-28T05:19:49.097Z</updated>
     
-    <content type="html"><![CDATA[<p>主要是想记录一下用Java编程时遇到的一个坑。</p><p>首先，背景是我给函数(记为方法二)传递数组作为参数，然后在函数内部(记为方法一)修改该数组以达到在原函数里修改该数组的目的。</p><p>方法二里有这么个操作：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">intervals = Arrays.copyOf(intervals, n-r+index+<span class="number">2</span>);</span><br></pre></td></tr></table></figure></p><p>intervals即为该数组，功能是给数组实行了截取或扩充操作，全部执行完毕之后返回到方法一。<strong>但是返回带方法一之后，该数组竟然还是原来的内容</strong>。</p><p>经过一番调试以及思考，<strong>原因是在Arrays.copyof()方法中，返回的对象是new出来的，也就是说给返回的新数组开辟了新内存，原数组内容并没有改变。但数组作为函数传递相当于传递的地址(引用形式),返回后方法一读取数组时仍会在旧地址中寻找</strong>。</p><p>另外，<strong>将新地址用=号赋值给旧地址后，并不是将旧地址也指向新地址，而是相当于只修改了intervals(传递过来后相当于一个值为旧地址数值的变量)的值</strong>。</p><p>为此，写了个例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fun1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] nums = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line">        fun2(nums);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> n : nums)&#123;</span><br><span class="line">            System.out.println(n);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fun2</span><span class="params">(<span class="keyword">int</span>[] nums)</span></span>&#123;</span><br><span class="line">        nums = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">3</span>, <span class="number">4</span>&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//nums[0] = 3;</span></span><br><span class="line">        <span class="comment">//nums[1] = 4;</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p><p>这样是不能将数组nums内容修改为3，4的，道理也是一样。只有给单个赋值(在原地址上修改)才可以，也就是代码中引掉的部分。</p>]]></content>
+    <content type="html"><![CDATA[<p>主要是想记录一下用Java编程时遇到的一个坑。<br><a id="more"></a></p><p>首先，背景是我给函数(记为方法二)传递数组作为参数，然后在函数内部(记为方法一)修改该数组以达到在原函数里修改该数组的目的。</p><p>方法二里有这么个操作：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">intervals = Arrays.copyOf(intervals, n-r+index+<span class="number">2</span>);</span><br></pre></td></tr></table></figure></p><p>intervals即为该数组，功能是给数组实行了截取或扩充操作，全部执行完毕之后返回到方法一。<strong>但是返回带方法一之后，该数组竟然还是原来的内容</strong>。</p><p>经过一番调试以及思考，<strong>原因是在Arrays.copyof()方法中，返回的对象是new出来的，也就是说给返回的新数组开辟了新内存，原数组内容并没有改变。但数组作为函数传递相当于传递的地址(引用形式),返回后方法一读取数组时仍会在旧地址中寻找</strong>。</p><p>另外，<strong>将新地址用=号赋值给旧地址后，并不是将旧地址也指向新地址，而是相当于只修改了intervals(传递过来后相当于一个值为旧地址数值的变量)的值</strong>。</p><p>为此，写了个例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fun1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] nums = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line">        fun2(nums);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> n : nums)&#123;</span><br><span class="line">            System.out.println(n);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fun2</span><span class="params">(<span class="keyword">int</span>[] nums)</span></span>&#123;</span><br><span class="line">        nums = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">3</span>, <span class="number">4</span>&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//nums[0] = 3;</span></span><br><span class="line">        <span class="comment">//nums[1] = 4;</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p><p>这样是不能将数组nums内容修改为3，4的，道理也是一样。只有给单个赋值(在原地址上修改)才可以，也就是代码中引掉的部分。</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;主要是想记录一下用Java编程时遇到的一个坑。&lt;/p&gt;
-&lt;p&gt;首先，背景是我给函数(记为方法二)传递数组作为参数，然后在函数内部(记为方法一)修改该数组以达到在原函数里修改该数组的目的。&lt;/p&gt;
-&lt;p&gt;方法二里有这么个操作：&lt;br&gt;&lt;figure class=&quot;highli
-      
+      &lt;p&gt;主要是想记录一下用Java编程时遇到的一个坑。&lt;br&gt;
     
     </summary>
     
@@ -175,7 +135,7 @@
     <link href="http://yoursite.com/2018/11/25/AS%E6%9B%B4%E6%96%B0%E5%90%8Ewarning%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E6%97%A0%E6%B3%95%E9%80%9A%E8%BF%87Google%E6%90%9C%E7%B4%A2%E8%BF%9B%E8%A1%8C%E7%B4%A2%E5%BC%95/"/>
     <id>http://yoursite.com/2018/11/25/AS更新后warning应用程序无法通过Google搜索进行索引/</id>
     <published>2018-11-25T06:26:14.600Z</published>
-    <updated>2019-01-23T07:28:09.925Z</updated>
+    <updated>2020-12-28T05:21:04.875Z</updated>
     
     <content type="html"><![CDATA[<p>作为一个自认为有强迫症的低端Coder，上次还是忍不住把AS更新了。<br>结果新版本用起来了一大堆各种各样的问题。其中有一个就是AndroidManifest文件中多了一个warning<br><a id="more"></a></p><p>App is not indexable by Google Search;<br>consider adding at least one Activity with an ACTION-VIEW</p><p>官方文档是这么说的:<br>To enable Google to crawl your app content and allow users to enter your app from search results, you must add intent filters for the relevant activities in your app manifest. These intent filters allow deep linking to the content in any of your activities. For example, the user might click on a deep link to view a page within a shopping app that describes a product offering that the user is searching for</p><p>要使Google能够抓取您的应用内容并允许用户从搜索结果中输入您的应用，您必须为应用清单中的相关活动添加意图过滤器。这些意图过滤器允许深入链接到您的任何活动中的内容。例如，用户可以点击深层链接以查看购物应用中的页面，该页面描述用户正在搜索的产品</p><p>解决方法有以下两个：</p><p>1.在AndroidManifest文件Activity标签中内嵌入一个ACTION.VIEW，如下:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainActivity"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.VIEW"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure></p><p>2.禁用检索功能，在app目录下build.gradle文件中android闭包中加入以下代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lintOptions &#123;</span><br><span class="line">        disable <span class="string">'GoogleAppIndexingWarning'</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>]]></content>
     
